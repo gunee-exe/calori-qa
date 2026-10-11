@@ -1,0 +1,85 @@
+name: calori
+description: "Calori — an honest calorie and macro tracker. AI photo estimates you can edit, backed by an offline food database."
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.13.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State
+  flutter_riverpod: ^3.4.2
+  # Note: the annotation and generator packages are on 4.x while
+  # flutter_riverpod is on 3.x. That mismatch is correct, not a typo.
+  riverpod_annotation: ^4.0.6
+
+  # Storage. `sqlite3` 3.x bundles SQLite itself via Dart build hooks, with
+  # SQLITE_ENABLE_FTS5 compiled in — so `sqlite3_flutter_libs` is NOT needed
+  # and is in fact deprecated (0.6.0+eol).
+  drift: ^2.34.3
+  drift_flutter: ^0.3.1
+  sqlite3: ^3.5.2
+  path_provider: ^2.1.6
+  path: ^1.9.1
+
+  # Models
+  freezed_annotation: ^3.1.0
+  json_annotation: ^4.12.0
+
+  # Photo path (Phase 6).
+  #
+  # flutter_image_compress is deliberately absent: it is not AGP 9 compatible
+  # (its Gradle configuration throws an NPE under AGP 9.1), and image_picker's
+  # own maxWidth/imageQuality parameters already give us the 1024px / q80
+  # downscale the Worker call needs.
+  #
+  # `camera` is deferred to Phase 6 rather than carried unused until then — it
+  # is only needed for the custom in-app viewfinder, and its AGP 9 status should
+  # be checked at the point it is actually wired up.
+  image_picker: ^1.2.3
+
+  # The live viewfinder. Android is backed by camera_android_camerax.
+  #
+  # Adding this means declaring the CAMERA permission, which in turn means
+  # image_picker is gallery-only from here — see the note in AndroidManifest.
+  camera: ^0.12.0+2
+  http: ^1.6.0
+
+  intl: ^0.20.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  build_runner: ^2.16.0
+  drift_dev: ^2.34.5
+  riverpod_generator: ^4.0.8
+  freezed: ^4.0.0
+  json_serializable: ^6.14.1
+
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    # Built by tools/build_foods_db. See 03-food-data.md.
+    - assets/db/
+
+  # Poppins is bundled rather than fetched at runtime: the manual logging path
+  # must work fully offline on first launch, and `google_fonts` downloads on
+  # first use by default. Licensed under the SIL Open Font License 1.1
+  # (assets/fonts/OFL.txt).
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 600

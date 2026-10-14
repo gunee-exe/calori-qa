@@ -32,7 +32,9 @@ SOURCES = json.loads((Q / "test-data" / "food-images" / "SOURCES.json").read_tex
 APP = "Calori"
 VERSION = "1.0.0 (build 1), source commit 35e2473 (2 Sep 2026)"
 REPORT_DATE = "11 October 2026"
-APK_SHA1 = (Q / "aut-35e2473/build/app/outputs/flutter-apk/app-release.apk.sha1").read_text().strip()
+_SHA1 = Q / "aut-35e2473/build/app/outputs/flutter-apk/app-release.apk.sha1"
+APK_SHA1 = (_SHA1.read_text().strip() if _SHA1.exists()
+            else __import__("hashlib").sha1((Q / "Calori-1.0.0+1-35e2473-release.apk").read_bytes()).hexdigest())
 START = dt.datetime.strptime((Q / "work/start-time.txt").read_text().strip(), "%Y-%m-%d %H:%M:%S")
 END = dt.datetime.strptime((Q / "work/end-time.txt").read_text().strip(), "%Y-%m-%d %H:%M:%S")
 PAID = int((Q / "work/paid_calls.txt").read_text().strip())
@@ -113,7 +115,7 @@ doc.caption("Table", "Document information")
 doc.p("Version history", bold=True, after=4)
 doc.table(["Version", "Date", "Author", "Change"], [
     ["0.1", "11-Oct-2026", "Usman Ghani", "Test plan, scope and requirement list (FR-001 – FR-046)"],
-    ["0.2", "11-Oct-2026", "Faizan Ali", "Test case design (76 cases), RTM, expected values from the formula oracle"],
+    ["0.2", "11-Oct-2026", "Faizan Ali", f"Test case design ({N - 1} cases), RTM, expected values from the formula oracle"],
     ["0.3", "11-Oct-2026", "Both", f"Execution results for all cases; TC-077 added during execution; {len(DEFS)} defects logged"],
     ["1.0", "11-Oct-2026", "Both", "Charts, analysis, recommendations and sign-off – final"],
 ], [1.6, 2.6, 2.8, 10.0], size=10)
@@ -145,7 +147,7 @@ doc.p(f"We tested eight modules – onboarding, the goal and safety rules, manua
       f"Major, {SEV['Minor']} Minor and {SEV['Trivial']} Trivial.")
 doc.p("**What works well.** Calorie and macro targets matched the published formula exactly in every scenario we "
       "calculated independently; the safety refusals and corrections appear inline with clear wording; food search is "
-      "fast, works offline and tolerates unusual input; the photo path answers 'no food' and 'no connection' honestly "
+      "fast, works offline and says clearly when nothing matches; the photo path answers 'no food' and 'no connection' honestly "
       "and keeps the photo for a retry; a repeated meal gives identical numbers.")
 doc.p("**Key findings.**", after=2)
 doc.bullets([
@@ -156,7 +158,7 @@ doc.bullets([
     "sets a target up to 220 kcal away from the rate the user chose (DEF-24); changing the goal rewrites past days' "
     "results (DEF-22) and leaves Home's progress ring stale (DEF-21).",
     "After a food is added by hand, its card stays stuck on 'Saving…' and cannot be used again (DEF-11).",
-    "In the photo flow, proposed items cannot be corrected before saving (DEF-27, DEF-28), typed details are ignored "
+    "In the photo flow, proposed portions cannot be corrected before saving (DEF-27), typed details are ignored "
     "for gallery photos (DEF-30) and the camera's Close button cannot be tapped (DEF-26).",
 ])
 doc.p("**Quality statement and recommendation: Not ready for release.** One Critical defect blocks an entire group "
@@ -190,7 +192,7 @@ doc.table(["Item", "Value"], [
     ["Build", f"flutter build apk --release with photo estimates configured; APK SHA-1 {APK_SHA1}"],
     ["Device", "Android Emulator, AVD 'finall' (sdk_gphone64_x86_64), Android 16 / API 36, 1080 × 2424 px at 420 dpi"],
     ["Photo service", "Developer's Cloudflare Worker (health check OK), model google/gemini-2.5-flash via OpenRouter"],
-    ["Network", "Online; airplane mode for the offline cases (TC-070, TC-071)"],
+    ["Network", "Online; airplane mode for the offline cases (TC-070)"],
     ["Test date and time", f"{START:%d-%b-%Y}, {START:%H:%M}–{END:%H:%M} (local time)"],
 ], [4.2, 12.8], size=10, bold_first_col=True)
 doc.caption("Table", "Version and environment under test")
@@ -234,20 +236,20 @@ doc.h("3.2 Test design techniques", 2)
 tech_count = Counter(k for t in TCS for k in techs(t))
 doc.table(["Technique", "Test cases using it", "Example from this project"], [
     ["Equivalence Partitioning", str(tech_count["EP"]),
-     "Weight split into valid 25–400 kg and invalid partitions; decimal point and decimal comma treated as two valid "
-     "input classes (TC-008). Regional versus English food names (TC-027)."],
+     "Valid metric and imperial units as separate input classes (TC-006, TC-010); regional versus English food "
+     "names (TC-027); a meal photo versus a photo with no food (TC-069)."],
     ["Boundary Value Analysis", str(tech_count["BVA"]),
-     "Age 17 / 18 and 119 / 120 (TC-003–TC-005); height 99 / 100 / 250 / 251 cm (TC-007); maintenance band at "
-     "±0.5 kg – 78.5 vs 78.6 kg (TC-022); calorie floor 1,499 / 1,500 kcal (TC-058); servings 0.5 / 20 (TC-031)."],
+     "Age 17 / 18 and 119 (TC-003, TC-004); maintenance band at ±0.5 kg – 78.5 vs 78.6 kg (TC-022); calorie floor "
+     "1,499 / 1,500 kcal (TC-058); month paging stops at the current month (TC-048)."],
     ["Decision Table", str(tech_count["DT"]),
-     "The UC-02 safety rules as an eight-rule table (Table 7), one or more test cases per rule (TC-004, TC-014–TC-021, TC-077)."],
+     "The UC-02 safety rules as an eight-rule table (Table 7), one or more test cases per rule (TC-004, TC-013–TC-016, TC-018–TC-022, TC-077)."],
     ["State Transition", str(tech_count["ST"]),
-     "Onboarding steps and their transitions, including Back, restart and the refusal state (Table 8); entry "
-     "life-cycle add → edit → delete → undo (TC-039–TC-044)."],
+     "Onboarding steps and their transitions, including restart and the refusal state (Table 8); entry "
+     "life-cycle add → edit → delete (TC-033, TC-039, TC-044)."],
     ["Error Guessing", str(tech_count["EG"]),
-     "Search operators such as NOT, rice* and quotes (TC-029); adding the same food twice (TC-034); restarting after "
-     "the under-18 refusal (TC-013); switching units with a hand-set target (TC-061); protein larger than the calorie "
-     "budget (TC-060)."],
+     "Adding the same food twice (TC-034); restarting after the under-18 refusal (TC-013); taking the alternative "
+     "offered to an underweight user (TC-077); switching units with a hand-set target (TC-061); losing the connection "
+     "during photo analysis (TC-070)."],
 ], [3.6, 2.4, 11.0], size=9)
 doc.caption("Table", "Test design techniques used, with examples")
 
@@ -262,9 +264,9 @@ dt_rows = [
     ["ACTION", "Block: refusal screen, no way on", "Refuse; offer maintain", "Refuse; offer maintain",
      "Refuse; offer healthy-weight gain", "Clamp rate; honest date", "Clamp to floor; later date", "Set to maintain",
      "Accept plan"],
-    ["Test cases", "TC-004, TC-013", "TC-017, TC-077", "TC-016", "TC-018", "TC-015, TC-019", "TC-020, TC-024",
+    ["Test cases", "TC-004, TC-013", "TC-077", "TC-016", "TC-018", "TC-015, TC-019", "TC-020",
      "TC-021", "TC-014, TC-022"],
-    ["Result", "Pass / Fail", "Pass / Fail", "Pass", "Fail", "Pass / Fail", "Pass / Fail", "Pass", "Pass"],
+    ["Result", "Pass / Fail", "Fail", "Pass", "Fail", "Pass / Fail", "Pass", "Pass", "Pass"],
 ]
 doc.table(["Condition / action", "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8"], dt_rows,
           [4.2] + [1.6] * 8, size=8, bold_first_col=True, align_center_cols=tuple(range(1, 9)))
@@ -275,8 +277,6 @@ st_rows = [
     ["Age", "Valid age ≥ 18, Continue", "Height & weight", "TC-003", status("TC-003")],
     ["Age", "Age < 18, Continue", "Blocked (refusal)", "TC-004", status("TC-004")],
     ["Blocked", "App restarted", "Blocked", "TC-013", status("TC-013")],
-    ["Height & weight", "Back arrow", "Age (answers kept)", "TC-011", status("TC-011")],
-    ["Height & weight", "Android Back", "Age (answers kept)", "TC-012", status("TC-012")],
     ["Target", "Refused; 'Maintain instead'", "Activity → Plan (maintenance)", "TC-016", status("TC-016")],
     ["Target", "Underweight; alternative chosen", "Activity → Plan", "TC-018, TC-077", "Fail"],
     ["Plan", "Start tracking", "Home (profile saved)", "TC-025", status("TC-025")],
@@ -323,7 +323,7 @@ doc.caption("Table", "Tools used")
 doc.h("4. Test Execution Summary", 1)
 doc.h("4.1 Overall metrics", 2)
 doc.table(["Metric", "Value"], [
-    ["Total test cases designed", f"{N} (76 before execution + 1 added during execution: TC-077)"],
+    ["Total test cases designed", f"{N} ({N - 1} before execution + 1 added during execution: TC-077)"],
     ["Test cases executed", f"{EXECUTED}"],
     ["Passed", f"{PASS}"],
     ["Failed", f"{FAIL}"],
@@ -337,7 +337,7 @@ doc.table(["Metric", "Value"], [
     ["Paid photo-analysis calls used", f"{PAID} (limit agreed with the project owner: 20)"],
 ], [6.0, 11.0], size=10, bold_first_col=True)
 doc.caption("Table", "Test execution metrics")
-doc.image(HERE / "charts/pass_fail.png", 11.5, "Overall pass/fail result of the 77 executed test cases")
+doc.image(HERE / "charts/pass_fail.png", 11.5, f"Overall pass/fail result of the {EXECUTED} executed test cases")
 doc.h("4.2 Module-wise breakdown", 2)
 rows = []
 for m in MOD:
@@ -362,10 +362,10 @@ doc.p(f"All {len(REQS)} requirements are covered by at least one test case. {rp}
       f"in Appendix B.")
 doc.h("4.4 Notes on execution", 2)
 doc.bullets([
-    "TC-077 was added during execution, when exploring TC-017 showed that 'Maintain instead' leads to an endless "
-    "spinner; it is designed, traced and reported like every other case.",
+    "TC-077 was added during execution, when exploring the refused loss goal of an underweight user showed that "
+    "'Maintain instead' leads to an endless spinner; it is designed, traced and reported like every other case.",
     "Two test cases had their test data adjusted to match the product: the quantity stepper moves in 0.5 steps, so "
-    "TC-032 compares 1 with 1.5 servings; TC-066/TC-067 ran on the review screen of TC-064 so that no extra paid "
+    "TC-032 compares 1 with 1.5 servings; TC-066 ran on the review screen of TC-064 so that no extra paid "
     "photo call was needed.",
     "Calculation cases were checked against the oracle; all matched exactly except where a defect is reported "
     "(TC-056 / DEF-24).",
@@ -417,24 +417,24 @@ doc.h("6. Observations and Recommendations", 1)
 doc.h("6.1 Overall functional quality", 2)
 doc.p("Calori's calculation core is sound: every target and macro split we checked against the formula matched to "
       "the kilocalorie, and the safety corrections say plainly what changed and why. Offline food search is a "
-      "strength – fast, regional-name aware, and robust to odd input. The weaknesses cluster in three places:")
+      "strength – fast, regional-name aware, and clear when nothing matches. The weaknesses cluster in three places:")
 doc.bullets([
     "**Edges of the safety flow** – the underweight alternatives dead-end (DEF-06), the under-18 stop does not "
-    "survive a restart (DEF-02), validation fails silently (DEF-01, DEF-04), and messages ignore the user's units or "
-    "goal direction (DEF-07, DEF-08, DEF-09).",
+    "survive a restart (DEF-02), system Back closes the app instead of going back (DEF-03), and the 'too fast' "
+    "correction ignores the goal direction (DEF-07).",
     "**Consistency of saved data** – a unit preference rewrites the goal (DEF-23), the Goal screen miscalculates "
-    "from the rate it shows (DEF-24), history is re-judged (DEF-22), displays go stale (DEF-21, DEF-18) and Undo is "
-    "not a true undo (DEF-16).",
-    "**The photo review step** – the UC-06 corrections are largely missing (DEF-27, DEF-28, DEF-31), details are "
-    "dropped (DEF-30) and the camera screen's own controls are hard to use (DEF-25, DEF-26, DEF-29).",
+    "from the rate it shows (DEF-24), history is re-judged (DEF-22), displays go stale (DEF-21) and a second manual "
+    "add gets stuck (DEF-11).",
+    "**The photo review step** – proposed portions cannot be corrected (DEF-27), details are dropped (DEF-30) and "
+    "the camera screen's own controls are hard to use (DEF-25, DEF-26, DEF-29).",
 ])
 doc.h("6.2 Recommendations for fixes", 2)
 doc.bullets([
     "**Fix first (High priority):** DEF-06, DEF-02, DEF-23, DEF-24, DEF-22, DEF-21, DEF-11, DEF-26, DEF-27. Each "
     "either harms a user, corrupts the diary or blocks a core action.",
-    "**Then:** the Medium-priority defects, starting with the photo review (DEF-28, DEF-30, DEF-31), data quality "
+    "**Then:** the Medium-priority defects, starting with the photo review (DEF-25, DEF-30), data quality "
     "of the INDB rows (DEF-13) and system Back handling (DEF-03).",
-    "Add inline validation messages everywhere a button is disabled (DEF-01, DEF-04, DEF-19, DEF-20).",
+    "Show Recent foods for foods logged by hand as well as from photos (DEF-12).",
     "Store each day's target with the day, so goal changes apply only from today forward (DEF-22) – this also "
     "removes the stale-ring class of problem (DEF-21).",
     "The project's next commit (36ead9d) states that it fixes DEF-11 and DEF-24; both should be re-tested on that "
@@ -442,7 +442,7 @@ doc.bullets([
 ])
 doc.h("6.3 Recommendations for future testing", 2)
 doc.bullets([
-    "**Regression:** re-run all 32 failed cases after fixes, plus the whole M2 and M6 suites, since the goal engine is "
+    f"**Regression:** re-run all {FAIL} failed cases after fixes, plus the whole M2 and M6 suites, since the goal engine is "
     "shared by onboarding and the Goal screen.",
     "**Real devices:** repeat M7 on physical phones with different status-bar and cut-out heights (DEF-26) and with "
     "the real camera rather than the emulator's virtual scene.",
@@ -504,14 +504,14 @@ doc.table(["In scope", "Out of scope"], [[
 ]], [8.5, 8.5], size=9, zebra=False)
 doc.caption("Table", "Scope")
 doc.h("A.3 Features and modules to be tested", 2)
-doc.p("See Table 5 (Section 2.4) – eight modules, 46 requirements, 77 test cases.")
+doc.p(f"See Table 5 (Section 2.4) – eight modules, {len(REQS)} requirements, {N} test cases.")
 doc.h("A.4 Test environment", 2)
 doc.p("See Table 4 (Section 2.3). One emulator was used throughout; app data was cleared between onboarding scenarios.")
 doc.h("A.5 Entry criteria", 2)
 doc.table(["Criterion", "Status on 11-Oct-2026"], [
     ["Release APK of commit 35e2473 builds and installs", "Met – built 20:12, installed 20:13"],
     ["Requirements baselined (FR-001 – FR-046)", "Met"],
-    ["Test cases designed and reviewed, expected values computed", "Met – 76 cases before execution"],
+    ["Test cases designed and reviewed, expected values computed", f"Met – {N - 1} cases before execution"],
     ["Test environment ready (emulator, density 420, photo Worker healthy)", "Met – Worker /health returned ok"],
     ["Test data ready (profiles, food images)", "Met – seven images pushed to the emulator gallery"],
 ], [10.0, 7.0], size=9)
@@ -531,8 +531,8 @@ doc.h("A.9 Task allocation", 2)
 doc.table(["#", "Task", "Owner", "Start date", "End date"], [
     ["1", "Test planning, scope, entry/exit criteria", "Usman Ghani", "11-Oct-2026", "11-Oct-2026"],
     ["2", "Requirement analysis and RTM", "Faizan Ali", "11-Oct-2026", "11-Oct-2026"],
-    ["3", "Test design – M1, M2, M7 (37 cases)", "Usman Ghani", "11-Oct-2026", "11-Oct-2026"],
-    ["4", "Test design – M3, M4, M5, M6, M8 (40 cases)", "Faizan Ali", "11-Oct-2026", "11-Oct-2026"],
+    ["3", f"Test design – M1, M2, M7 ({sum(1 for t in TCS if OWNER[t['module']] == 'Usman Ghani')} cases)", "Usman Ghani", "11-Oct-2026", "11-Oct-2026"],
+    ["4", f"Test design – M3, M4, M5, M6, M8 ({sum(1 for t in TCS if OWNER[t['module']] == 'Faizan Ali')} cases)", "Faizan Ali", "11-Oct-2026", "11-Oct-2026"],
     ["5", "Environment set-up: APK build, emulator, test images", "Usman Ghani", "11-Oct-2026", "11-Oct-2026"],
     ["6", "Execution – M1, M2, M7", "Usman Ghani", "11-Oct-2026", "11-Oct-2026"],
     ["7", "Execution – M3, M4, M5, M6, M8", "Faizan Ali", "11-Oct-2026", "11-Oct-2026"],
@@ -615,27 +615,24 @@ doc.table(["ID", "Title", "Module", "Severity", "Priority", "Status", "Found by"
 doc.caption("Table", "Defect log")
 sec = doc.new_section(landscape=False)
 doc.h("D.2 Defect reports", 2)
-doc.p("One report per defect. The first image of each report is the device screenshot with a red highlight added to "
-      "mark the fault; the unmarked originals are in the evidence folder (Appendix F).")
+doc.p("One report per defect, with the device screenshot beside it; a red highlight was added to mark the fault. "
+      "The unmarked originals and any further screenshots named under Evidence are in the evidence folder "
+      f"(Appendix F). Environment for every defect: {D.ENV}.")
 for x in DEFS:
     doc.h(f"{x['id']} – {x['title']}", 3)
     pairs = [
         ("Defect ID", x["id"]), ("Title", x["title"]), ("Module / Feature", f"{x['module']} {MOD[x['module']]}"),
-        ("Found by", ", ".join(x["found"])), ("Environment", D.ENV),
-        ("Severity", x["severity"]), ("Priority", x["priority"]), ("Status", x["status"]),
+        ("Found by", ", ".join(x["found"])),
+        ("Severity / Priority", f"{x['severity']} / {x['priority']}"), ("Status", x["status"]),
         ("Steps to reproduce", [f"{i}. {s}" for i, s in enumerate(x["steps"], 1)]),
         ("Expected result", x["expected"]), ("Actual result", x["actual"]), ("Impact", x["impact"]),
         ("Evidence", ", ".join(x["evidence"])), ("Reporter / Date", f"{OWNER[x['module']]} · 11-Oct-2026"),
     ]
     if x["note"]:
         pairs.append(("Note", x["note"]))
-    doc.kv_table(pairs, widths_cm=(3.8, 13.2), size=8.5, status_key="—")
-    imgs = [(HERE / "annotated" / f"{x['id']}.jpg", f"{x['evidence'][0]} (highlight added)")]
-    for ev in x["evidence"][1:]:
-        if not ev.endswith(".mp4") and len(imgs) < 2:
-            imgs.append((annotate.small(ev), ev))
-    doc.images_row(imgs, 5.6, f"{x['id']} evidence")
-    doc.page_break()
+    doc.kv_table_image(pairs, HERE / "annotated" / f"{x['id']}.jpg", 4.6, widths_cm=(2.9, 9.5), size=8,
+                       caption=f"{x['id']} evidence: {x['evidence'][0]} (highlight added)")
+doc.page_break()
 
 # ================================================= Appendix E exploratory
 doc.h("Appendix E – Exploratory Testing Notes", 1)
@@ -666,6 +663,8 @@ for x in DEFS:
 rows = []
 for f in sorted((Q / "evidence").glob("*.png")):
     name = f.stem
+    if name not in link and name[:6] not in TC_BY_ID and name.startswith("TC-"):
+        continue  # evidence of a test case not retained in this report
     when = dt.datetime.fromtimestamp(f.stat().st_mtime).strftime("%H:%M")
     rows.append([f.name, ", ".join(sorted(set(link.get(name, [])))) or "exploratory / working shot", when])
 doc.table(["File", "Linked to", "Captured"], rows, [8.2, 6.8, 2.0], size=7.5)

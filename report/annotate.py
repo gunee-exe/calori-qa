@@ -5,13 +5,16 @@ from PIL import Image, ImageDraw, ImageFont
 
 import defects as D
 
-Q = pathlib.Path("H:/flutter_apps/calori-qa")
+Q = pathlib.Path(__file__).resolve().parent.parent
 OUT = Q / "report" / "annotated"
 SMALL = Q / "report" / "small"
 OUT.mkdir(exist_ok=True)
 SMALL.mkdir(exist_ok=True)
 RED = (220, 38, 38)
-FONT = ImageFont.truetype("C:/Windows/Fonts/arialbd.ttf", 34)
+try:
+    FONT = ImageFont.truetype("C:/Windows/Fonts/arialbd.ttf", 34)
+except OSError:
+    FONT = ImageFont.truetype("DejaVuSans-Bold.ttf", 34)
 WIDTH = 600  # report copies: legible at ~6 cm, small enough to keep the .docx light
 
 

@@ -25,7 +25,7 @@ GOOD = "#0ca30c"; CRIT = "#d03b3b"; BLUE = "#2a78d6"
 ORDINAL = {"Trivial": "#86b6ef", "Minor": "#3987e5", "Major": "#256abf", "Critical": "#104281",
            "Low": "#86b6ef", "Medium": "#3987e5", "High": "#104281"}
 
-plt.rcParams.update({"font.family": "Calibri", "font.size": 11, "axes.edgecolor": AXIS, "axes.labelcolor": INK2,
+plt.rcParams.update({"font.family": ["Calibri", "Carlito"], "font.size": 11, "axes.edgecolor": AXIS, "axes.labelcolor": INK2,
                      "xtick.color": INK2, "ytick.color": INK2, "figure.facecolor": SURFACE, "axes.facecolor": SURFACE,
                      "savefig.facecolor": SURFACE})
 

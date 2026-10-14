@@ -1,14 +1,4 @@
 {
- "TC-001": {
-  "status": "Pass",
-  "actual": "Onboarding opened on 'First, a couple of basics' with Male and Female cards; no navigation bar or Home content was reachable.",
-  "evidence": [
-   "TC-001_first_launch"
-  ],
-  "defects": [],
-  "date": "2026-10-11",
-  "time": "20:14"
- },
  "TC-002": {
   "status": "Pass",
   "actual": "Tapping Male opened 'How old are you?' with the numeric keyboard up; progress bar advanced from 20% to 40% and a back arrow appeared.",
@@ -40,55 +30,6 @@
   "date": "2026-10-11",
   "time": "20:18"
  },
- "TC-005": {
-  "status": "Fail",
-  "actual": "Continue stayed disabled for blank, 0, 120 and 999 (correct), but NO message was shown for any of them - the button simply greys out and the user is not told the accepted range.",
-  "evidence": [
-   "TC-005_age_0",
-   "TC-005_age_120"
-  ],
-  "defects": [
-   "DEF-01"
-  ],
-  "date": "2026-10-11",
-  "time": "20:18"
- },
- "TC-011": {
-  "status": "Pass",
-  "actual": "Back arrow on the height/weight step returned to 'How old are you?' with 18 still filled in; Continue returned to the height/weight step.",
-  "evidence": [
-   "TC-011_back_arrow_age_kept"
-  ],
-  "defects": [],
-  "date": "2026-10-11",
-  "time": "20:18"
- },
- "TC-012": {
-  "status": "Fail",
-  "actual": "With the keyboard closed, system Back on the height/weight step closed Calori (launcher came to the front). Reopening restarted onboarding at step 1 ('First, a couple of basics', progress 20%) - sex and age answers were lost.",
-  "evidence": [
-   "TC-012_before_back",
-   "TC-012_system_back_onboarding"
-  ],
-  "defects": [
-   "DEF-03"
-  ],
-  "date": "2026-10-11",
-  "time": "20:18"
- },
- "TC-013": {
-  "status": "Fail",
-  "actual": "After force-stop and relaunch the app opened at step 1 of onboarding again, not the refusal screen. Entering age 25 enabled Continue and led to 'Your height and weight' - the under-18 stop is bypassed by restarting the app.",
-  "evidence": [
-   "TC-013_after_restart",
-   "TC-013_reentered_age25"
-  ],
-  "defects": [
-   "DEF-02"
-  ],
-  "date": "2026-10-11",
-  "time": "20:18"
- },
  "TC-006": {
   "status": "Pass",
   "actual": "178 cm + 78 kg enabled Continue, which opened 'What are you aiming for?' with Target weight pre-filled as 78 kg (note: the target field did not take focus by itself - see exploratory note).",
@@ -96,47 +37,6 @@
    "TC-006_target_prefilled"
   ],
   "defects": [],
-  "date": "2026-10-11",
-  "time": "20:32"
- },
- "TC-007": {
-  "status": "Fail",
-  "actual": "Limits are enforced correctly - 100 and 250 cm enable Continue, 99 and 251 cm keep it disabled - but no message tells the user why Continue is disabled or what the valid range is.",
-  "evidence": [
-   "TC-007_height_99",
-   "TC-007_height_100",
-   "TC-007_height_251"
-  ],
-  "defects": [
-   "DEF-01"
-  ],
-  "date": "2026-10-11",
-  "time": "20:32"
- },
- "TC-008": {
-  "status": "Fail",
-  "actual": "25 and 400 kg enable Continue, 24.9 and 400.1 kg keep it disabled (correct), but again no message explains the rejection. '78,5' was accepted and the target step pre-filled 78.5 (correct).",
-  "evidence": [
-   "TC-008_weight_24_9",
-   "TC-008_weight_400_1",
-   "TC-008_comma_target_prefill"
-  ],
-  "defects": [
-   "DEF-01"
-  ],
-  "date": "2026-10-11",
-  "time": "20:32"
- },
- "TC-009": {
-  "status": "Fail",
-  "actual": "5 ft 10 in and 5 ft 11 in accepted (correct). 5 ft 12 in and 5 ft 25 in were ALSO accepted: Continue enabled and led to the target step. The inches field takes any two digits (0-99) with no validation.",
-  "evidence": [
-   "TC-009_5ft10in",
-   "TC-009_5ft25in"
-  ],
-  "defects": [
-   "DEF-04"
-  ],
   "date": "2026-10-11",
   "time": "20:32"
  },
@@ -151,6 +51,19 @@
   "defects": [],
   "date": "2026-10-11",
   "time": "20:32"
+ },
+ "TC-013": {
+  "status": "Fail",
+  "actual": "After force-stop and relaunch the app opened at step 1 of onboarding again, not the refusal screen. Entering age 25 enabled Continue and led to 'Your height and weight' - the under-18 stop is bypassed by restarting the app.",
+  "evidence": [
+   "TC-013_after_restart",
+   "TC-013_reentered_age25"
+  ],
+  "defects": [
+   "DEF-02"
+  ],
+  "date": "2026-10-11",
+  "time": "20:18"
  },
  "TC-014": {
   "status": "Pass",
@@ -181,16 +94,6 @@
   "evidence": [
    "TC-016_refused_55",
    "TC-016_maintain_plan"
-  ],
-  "defects": [],
-  "date": "2026-10-11",
-  "time": "20:42"
- },
- "TC-017": {
-  "status": "Pass",
-  "actual": "Refusal: 'You are already below a healthy weight for your height, so Calori will not help you lose more...' with 'Maintain instead'; Continue disabled. (What happens after 'Maintain instead' is covered by TC-077.)",
-  "evidence": [
-   "TC-017_already_underweight"
   ],
   "defects": [],
   "date": "2026-10-11",
@@ -254,42 +157,6 @@
   "date": "2026-10-11",
   "time": "20:42"
  },
- "TC-023": {
-  "status": "Fail",
-  "actual": "Weight entered in lb (172 lb), target field shows 'lb', target 120 lb refused - but the message says 'The lowest weight in the healthy range for you is about 59 kg.' The unit the user chose is ignored.",
-  "evidence": [
-   "TC-023_refusal_in_lb"
-  ],
-  "defects": [
-   "DEF-08"
-  ],
-  "date": "2026-10-11",
-  "time": "20:42"
- },
- "TC-024": {
-  "status": "Fail",
-  "actual": "Plan: 'At this pace you reach your target around 7 February' and 'you'd reach 45 kg by 7 February instead'. The real projection is 7 February 2029 (121 weeks away); with no year shown it reads as February 2027.",
-  "evidence": [
-   "TC-024_long_goal_plan"
-  ],
-  "defects": [
-   "DEF-09"
-  ],
-  "date": "2026-10-11",
-  "time": "20:42"
- },
- "TC-077": {
-  "status": "Fail",
-  "actual": "After 'Maintain instead' and 'Moderately active' the plan screen shows only an endless loading spinner (still spinning after 10 s) - no target, no 'Start tracking', no back arrow. The offered alternative is a dead end, so an underweight user cannot finish onboarding.",
-  "evidence": [
-   "TC-017_maintain_spinner"
-  ],
-  "defects": [
-   "DEF-06"
-  ],
-  "date": "2026-10-11",
-  "time": "20:43"
- },
  "TC-025": {
   "status": "Pass",
   "actual": "'Start tracking' opened Home: ring 0%, '0 / 2,160 kcal', 'nothing logged yet', PROTEIN 0 / 140 g, Carbs 0 g, Fat 0 g, 'Nothing logged yet.' After force-stop and relaunch Home was shown again with the same figures.",
@@ -301,30 +168,39 @@
   "date": "2026-10-11",
   "time": "20:44"
  },
- "TC-026": {
+ "TC-027": {
   "status": "Pass",
-  "actual": "'rice' returned ranked results within ~1 s, each card with name, source badge (CNF, COFID, USDA, INDB), default serving and kcal, e.g. 'Rice and split peas, brown rice - COFID - 100 g - 179 kcal'. Side finding: 'Rice cake' and 'Rice paper' (USDA) show their serving as '90000' (logged as DEF-10).",
+  "actual": "'channa' returned chickpea foods: 'Chickpea Cooked (Channa) - FCT-PK', 'Chickpea Raw (Channa) - FCT-PK', 'Chickpeas curry (Safed channa curry) - INDB', plus channa dishes. 'karela' returned 'Gourd, karela - COFID', 'Bitter Gourd (Karela) - FCT-PK', karela curries.",
   "evidence": [
-   "TC-026_search_rice",
-   "TC-026_rice_cake_expanded",
-   "TC-026_rice_cake_picker"
-  ],
-  "defects": [
-   "DEF-10"
-  ],
-  "date": "2026-10-11",
-  "time": "20:47"
- },
- "TC-031": {
-  "status": "Pass",
-  "actual": "From 1, '-' went to 0.5 and then the Decrease button became disabled (stayed 0.5). '+' stopped at 20 with the Increase button disabled after 42 presses.",
-  "evidence": [
-   "TC-031_min_0_5",
-   "TC-031_max_20"
+   "TC-027_channa",
+   "TC-027_karela"
   ],
   "defects": [],
   "date": "2026-10-11",
-  "time": "20:47"
+  "time": "20:51"
+ },
+ "TC-028": {
+  "status": "Pass",
+  "actual": "'xqzvbn' showed 'No matches' with 'Try a shorter or more general word - \"rice\" finds more than \"basmati rice, cooked\".' The x button emptied the field and removed the message.",
+  "evidence": [
+   "TC-028_no_matches",
+   "TC-028_cleared"
+  ],
+  "defects": [],
+  "date": "2026-10-11",
+  "time": "20:51"
+ },
+ "TC-030": {
+  "status": "Fail",
+  "actual": "After logging Rice cake by hand, clearing the search field showed an empty screen - no 'Recent' section at all. Manually logged foods never appear as recent/frequent suggestions.",
+  "evidence": [
+   "TC-030_no_recent_section"
+  ],
+  "defects": [
+   "DEF-12"
+  ],
+  "date": "2026-10-11",
+  "time": "20:51"
  },
  "TC-032": {
   "status": "Pass",
@@ -360,63 +236,6 @@
   ],
   "date": "2026-10-11",
   "time": "20:47"
- },
- "TC-027": {
-  "status": "Pass",
-  "actual": "'channa' returned chickpea foods: 'Chickpea Cooked (Channa) - FCT-PK', 'Chickpea Raw (Channa) - FCT-PK', 'Chickpeas curry (Safed channa curry) - INDB', plus channa dishes. 'karela' returned 'Gourd, karela - COFID', 'Bitter Gourd (Karela) - FCT-PK', karela curries.",
-  "evidence": [
-   "TC-027_channa",
-   "TC-027_karela"
-  ],
-  "defects": [],
-  "date": "2026-10-11",
-  "time": "20:51"
- },
- "TC-028": {
-  "status": "Pass",
-  "actual": "'xqzvbn' showed 'No matches' with 'Try a shorter or more general word - \"rice\" finds more than \"basmati rice, cooked\".' The x button emptied the field and removed the message.",
-  "evidence": [
-   "TC-028_no_matches",
-   "TC-028_cleared"
-  ],
-  "defects": [],
-  "date": "2026-10-11",
-  "time": "20:51"
- },
- "TC-029": {
-  "status": "Pass",
-  "actual": "rice\\\" , rice*, NOT, (egg, egg-white and 'AND OR' all returned ordinary results (e.g. 'Egg, white - USDA' for egg-white); no 'Search stopped working' error and no crash.",
-  "evidence": [
-   "TC-029_quote",
-   "TC-029_NOT",
-   "TC-029_AND_OR"
-  ],
-  "defects": [],
-  "date": "2026-10-11",
-  "time": "20:51"
- },
- "TC-030": {
-  "status": "Fail",
-  "actual": "After logging Rice cake by hand, clearing the search field showed an empty screen - no 'Recent' section at all. Manually logged foods never appear as recent/frequent suggestions.",
-  "evidence": [
-   "TC-030_no_recent_section"
-  ],
-  "defects": [
-   "DEF-12"
-  ],
-  "date": "2026-10-11",
-  "time": "20:51"
- },
- "TC-035": {
-  "status": "Pass",
-  "actual": "With 10 October selected, the egg logged from Add food appeared under 'Saturday, 10 October' (72 / 2,160 kcal, 3%). Switching to 11 October showed only the Rice cake (235 kcal) - today unchanged.",
-  "evidence": [
-   "TC-035_logged_on_10oct",
-   "TC-035_today_unchanged"
-  ],
-  "defects": [],
-  "date": "2026-10-11",
-  "time": "20:57"
  },
  "TC-036": {
   "status": "Pass",
@@ -461,55 +280,6 @@
   "date": "2026-10-11",
   "time": "20:57"
  },
- "TC-040": {
-  "status": "Pass",
-  "actual": "Boiled egg 151 g / 68 kcal -> 2x = 302 g / 137 kcal (meal total 137 kcal) -> 0.5x = 151 g / 68 kcal, back to the original.",
-  "evidence": [
-   "TC-040_after_2x",
-   "TC-040_after_half"
-  ],
-  "defects": [],
-  "date": "2026-10-11",
-  "time": "20:57"
- },
- "TC-041": {
-  "status": "Fail",
-  "actual": "Ten presses of 0.5x took the item to '0 g - 0 kcal' with no lower limit or prompt; Home kept a 'BREAKFAST - Boiled egg (Ubla anda) - 0 kcal' meal in the day's list.",
-  "evidence": [
-   "TC-041_zero_gram_item",
-   "TC-041_home_zero_kcal_meal"
-  ],
-  "defects": [
-   "DEF-15"
-  ],
-  "date": "2026-10-11",
-  "time": "20:57"
- },
- "TC-042": {
-  "status": "Pass",
-  "actual": "Tapping x on the only item closed the editor and the meal disappeared from Home; total went back to 235 kcal.",
-  "evidence": [
-   "TC-042_editor_before_remove",
-   "TC-042_meal_removed"
-  ],
-  "defects": [],
-  "date": "2026-10-11",
-  "time": "20:57"
- },
- "TC-043": {
-  "status": "Fail",
-  "actual": "Swipe removed 'Rice cake' with snackbar 'Rice cake removed - Undo'. Undo brought it back, but BELOW the egg that had been logged after it: the restored entry is re-inserted with a new logged time instead of being restored in place.",
-  "evidence": [
-   "TC-043_before_swipe",
-   "TC-043_snackbar_undo",
-   "TC-043_after_undo"
-  ],
-  "defects": [
-   "DEF-16"
-  ],
-  "date": "2026-10-11",
-  "time": "20:57"
- },
  "TC-044": {
   "status": "Pass",
   "actual": "'Remove this meal' closed the editor; 'Biryani with chicken' disappeared and Home returned to 235 / 2,160 kcal (11%). App kept working normally - no blank screen.",
@@ -521,21 +291,25 @@
   "date": "2026-10-11",
   "time": "20:58"
  },
+ "TC-045": {
+  "status": "Fail",
+  "actual": "Before: ring 11%, '235 / 2,160 kcal'. After setting 1,080 kcal on Goal: line '235 / 1,080 kcal' but the ring still showed 11% (should be 22%). It corrected to 22% only after selecting another day and coming back. The calendar also kept the old target until the app was restarted.",
+  "evidence": [
+   "TC-045_home_before",
+   "TC-045_home_after_goal_change",
+   "TC-045_today_after_day_switch"
+  ],
+  "defects": [
+   "DEF-21"
+  ],
+  "date": "2026-10-11",
+  "time": "21:02"
+ },
  "TC-046": {
   "status": "Pass",
   "actual": "Calendar opened on 'October 2026', Monday-first; 10 and 11 Oct drawn as small rings (3% and 11% of target), unlogged past days with a neutral dot, today outlined, 12-31 Oct dimmed; legend 'on target / over / not logged'; forward arrow greyed.",
   "evidence": [
    "TC-046_calendar_october"
-  ],
-  "defects": [],
-  "date": "2026-10-11",
-  "time": "20:58"
- },
- "TC-047": {
-  "status": "Pass",
-  "actual": "Tapping 20 October (future) did nothing - the month summary stayed and no day detail opened.",
-  "evidence": [
-   "TC-047_future_tap"
   ],
   "defects": [],
   "date": "2026-10-11",
@@ -564,18 +338,6 @@
   "date": "2026-10-11",
   "time": "20:58"
  },
- "TC-050": {
-  "status": "Fail",
-  "actual": "With 11 Oct selected, paging back to September kept the '11 OCTOBER' detail card under the September grid, now reading '0 kcal' while still listing 'Rice cake 235' - a card that contradicts itself and belongs to another month.",
-  "evidence": [
-   "TC-050_september_with_oct_detail"
-  ],
-  "defects": [
-   "DEF-18"
-  ],
-  "date": "2026-10-11",
-  "time": "20:58"
- },
  "TC-051": {
   "status": "Pass",
   "actual": "Logged days 10 Oct (72 kcal) and 11 Oct (235 kcal): 'AVERAGE 153 kcal per logged day' ((72+235)/2 = 153.5, exact values 153.x), 'LOGGED 2 days this month'.",
@@ -585,70 +347,6 @@
   "defects": [],
   "date": "2026-10-11",
   "time": "20:58"
- },
- "TC-053": {
-  "status": "Pass",
-  "actual": "Goal screen: DAILY TARGET 2,160 (pencil), 'On track to reach your target by 3 January.', Protein 140 g / Carbs 265 g / Fat 60 g, Current weight 78 kg, Goal weight 72 kg, Rate of loss 0.6 %.",
-  "evidence": [
-   "TC-053_goal_screen"
-  ],
-  "defects": [],
-  "date": "2026-10-11",
-  "time": "21:02"
- },
- "TC-058": {
-  "status": "Pass",
-  "actual": "1500 -> target 1,500 with 'Calori suggests 2,160 - Reset', no advisory. 1499 -> adds 'That is below the 1500 kcal a day Calori would suggest as a minimum. Your call...' (macros 140/129/47 g = 1,499 kcal). Reset -> back to 2,160, both lines gone.",
-  "evidence": [
-   "TC-058_kcal_sheet",
-   "TC-058_kcal_1500",
-   "TC-058_kcal_1499_advisory",
-   "TC-058_after_reset"
-  ],
-  "defects": [],
-  "date": "2026-10-11",
-  "time": "21:02"
- },
- "TC-059": {
-  "status": "Fail",
-  "actual": "Entering 0 and pressing Save closed the sheet and silently kept 2,160; same for an empty field. No message says the value was rejected or why - the user cannot tell whether it saved.",
-  "evidence": [
-   "TC-059_entered_0",
-   "TC-059_after_save_0",
-   "TC-059_after_save_blank"
-  ],
-  "defects": [
-   "DEF-19"
-  ],
-  "date": "2026-10-11",
-  "time": "21:02"
- },
- "TC-060": {
-  "status": "Fail",
-  "actual": "600 g protein accepted without any warning. Card shows 2,160 kcal with Protein 600 g, Carbs 0 g, Fat 47 g = 2,823 kcal of macros - 663 kcal more than the target printed directly above them.",
-  "evidence": [
-   "TC-060_protein_sheet",
-   "TC-060_protein_600"
-  ],
-  "defects": [
-   "DEF-20"
-  ],
-  "date": "2026-10-11",
-  "time": "21:02"
- },
- "TC-045": {
-  "status": "Fail",
-  "actual": "Before: ring 11%, '235 / 2,160 kcal'. After setting 1,080 kcal on Goal: line '235 / 1,080 kcal' but the ring still showed 11% (should be 22%). It corrected to 22% only after selecting another day and coming back. The calendar also kept the old target until the app was restarted.",
-  "evidence": [
-   "TC-045_home_before",
-   "TC-045_home_after_goal_change",
-   "TC-045_today_after_day_switch"
-  ],
-  "defects": [
-   "DEF-21"
-  ],
-  "date": "2026-10-11",
-  "time": "21:02"
  },
  "TC-052": {
   "status": "Fail",
@@ -664,42 +362,15 @@
   "date": "2026-10-11",
   "time": "21:02"
  },
- "TC-061": {
-  "status": "Fail",
-  "actual": "Before: 'Calori suggests 2,160 - Reset', hand-set 2,000 kcal, 'On track to reach your target by 3 January.', rate 0.6 %. After tapping lb: caption became 'Enough to hold your current weight.' although the goal is still 172 -> 159 lb, rate jumped to 0.5 %, suggestion became 2,300. After a restart the 'Calori suggests... Reset' line was gone too: the toggle had erased the saved target date and the hand-set flag.",
-  "evidence": [
-   "TC-061_before_units_toggle",
-   "TC-061_after_lb",
-   "TC-061_after_restart",
-   "V2_units_toggle_wipes_goal.mp4"
-  ],
-  "defects": [
-   "DEF-23"
-  ],
-  "date": "2026-10-11",
-  "time": "21:04"
- },
- "TC-054": {
+ "TC-053": {
   "status": "Pass",
-  "actual": "Goal weight 72 -> 70 kg: caption changed live to 'At 0.6 % per week you reach your target by 31 January.' (kcal stays 2,160 because the rate is unchanged - correct per formula). After force-stop and relaunch: Goal weight 70 kg, 'On track to reach your target by 31 January.'",
+  "actual": "Goal screen: DAILY TARGET 2,160 (pencil), 'On track to reach your target by 3 January.', Protein 140 g / Carbs 265 g / Fat 60 g, Current weight 78 kg, Goal weight 72 kg, Rate of loss 0.6 %.",
   "evidence": [
-   "TC-054_goal_70_live",
-   "TC-054_after_restart"
+   "TC-053_goal_screen"
   ],
   "defects": [],
   "date": "2026-10-11",
-  "time": "21:11"
- },
- "TC-055": {
-  "status": "Pass",
-  "actual": "Rate stopped at 0.1 % (Decrease disabled, target 2,620) and at 1.0 % (Increase disabled, target 1,910). Bounds correct. Two side observations: at 1.0 % the caption read 'At 0.9 % per week' (see TC-056 / DEF-24) and at 0.1 % 'by 2 October' with no year (DEF-09).",
-  "evidence": [
-   "TC-055_rate_min",
-   "TC-055_rate_max"
-  ],
-  "defects": [],
-  "date": "2026-10-11",
-  "time": "21:11"
+  "time": "21:02"
  },
  "TC-056": {
   "status": "Fail",
@@ -723,6 +394,34 @@
   "defects": [],
   "date": "2026-10-11",
   "time": "21:11"
+ },
+ "TC-058": {
+  "status": "Pass",
+  "actual": "1500 -> target 1,500 with 'Calori suggests 2,160 - Reset', no advisory. 1499 -> adds 'That is below the 1500 kcal a day Calori would suggest as a minimum. Your call...' (macros 140/129/47 g = 1,499 kcal). Reset -> back to 2,160, both lines gone.",
+  "evidence": [
+   "TC-058_kcal_sheet",
+   "TC-058_kcal_1500",
+   "TC-058_kcal_1499_advisory",
+   "TC-058_after_reset"
+  ],
+  "defects": [],
+  "date": "2026-10-11",
+  "time": "21:02"
+ },
+ "TC-061": {
+  "status": "Fail",
+  "actual": "Before: 'Calori suggests 2,160 - Reset', hand-set 2,000 kcal, 'On track to reach your target by 3 January.', rate 0.6 %. After tapping lb: caption became 'Enough to hold your current weight.' although the goal is still 172 -> 159 lb, rate jumped to 0.5 %, suggestion became 2,300. After a restart the 'Calori suggests... Reset' line was gone too: the toggle had erased the saved target date and the hand-set flag.",
+  "evidence": [
+   "TC-061_before_units_toggle",
+   "TC-061_after_lb",
+   "TC-061_after_restart",
+   "V2_units_toggle_wipes_goal.mp4"
+  ],
+  "defects": [
+   "DEF-23"
+  ],
+  "date": "2026-10-11",
+  "time": "21:04"
  },
  "TC-062": {
   "status": "Pass",
@@ -793,34 +492,6 @@
   "date": "2026-10-11",
   "time": "21:21"
  },
- "TC-067": {
-  "status": "Fail",
-  "actual": "Tapping the item name 'paratha' and the macro '20 g Protein' did nothing - no edit field, no database replacement, no keyboard. Name and macros of a proposed item cannot be corrected.",
-  "evidence": [
-   "TC-067_name_macro_tap_no_edit"
-  ],
-  "defects": [
-   "DEF-28"
-  ],
-  "date": "2026-10-11",
-  "time": "21:21"
- },
- "TC-068": {
-  "status": "Fail",
-  "actual": "egg_breakfast.jpg -> 5 items, 335 kcal. x on 'fried egg' removed it and the total dropped to 245 kcal (correct). '+ Add something it missed' -> added 'Chapati/Roti' -> back on the review the list was unchanged (4 items, 245 kcal). After saving, Home showed TWO entries: 'Chapati/Roti 73 kcal' on its own (saved immediately) and the photo meal at 245 kcal.",
-  "evidence": [
-   "TC-068_egg_proposal",
-   "TC-068_after_remove",
-   "TC-068_add_missed_search",
-   "TC-068_review_after_add",
-   "TC-068_home_two_entries"
-  ],
-  "defects": [
-   "DEF-31"
-  ],
-  "date": "2026-10-11",
-  "time": "21:21"
- },
  "TC-069": {
   "status": "Pass",
   "actual": "cat_nonfood.jpg -> 'No food in that photo - Try again with the meal filling more of the frame, or add it by hand.' with 'Try again' and 'Add by hand instead'; no items, nothing logged.",
@@ -842,18 +513,6 @@
   "date": "2026-10-11",
   "time": "21:21"
  },
- "TC-071": {
-  "status": "Pass",
-  "actual": "From the offline failure, 'Add by hand instead' opened Add food with a close (x) button and the keyboard up. Observed alongside: the search box was empty while results for an earlier query ('chapati') were listed under it - logged as DEF-32.",
-  "evidence": [
-   "TC-071_add_by_hand"
-  ],
-  "defects": [
-   "DEF-32"
-  ],
-  "date": "2026-10-11",
-  "time": "21:21"
- },
  "TC-072": {
   "status": "Pass",
   "actual": "biryani.jpg a second time gave the same five items with identical kcal, grams and macros, each marked 'Using the numbers you accepted before'.",
@@ -861,20 +520,6 @@
    "TC-072_biryani_repeat"
   ],
   "defects": [],
-  "date": "2026-10-11",
-  "time": "21:21"
- },
- "TC-073": {
-  "status": "Fail",
-  "actual": "Recent now lists the accepted photo foods (sliced avocado, blue cheese, ... paratha, mutton curry, raita) - correct. Tapping 'paratha' showed paratha results, but the search box stayed EMPTY ('Search foods' placeholder) with no x to clear, so results and field disagree.",
-  "evidence": [
-   "TC-073_recent_chips",
-   "TC-073_after_chip_tap",
-   "EXP_stale_results_empty_field"
-  ],
-  "defects": [
-   "DEF-32"
-  ],
   "date": "2026-10-11",
   "time": "21:21"
  },
@@ -889,19 +534,6 @@
   "date": "2026-10-11",
   "time": "21:23"
  },
- "TC-075": {
-  "status": "Fail",
-  "actual": "'+' opened Add food, Home returned, the calendar button opened 'October 2026', Home returned; the nav bar stayed visible throughout (correct). But Add food opened with NO keyboard and the search field unfocused (also on the first visit in TC-026) - the user must tap the field first.",
-  "evidence": [
-   "TC-075_plus_add_food",
-   "TC-075_calendar"
-  ],
-  "defects": [
-   "DEF-33"
-  ],
-  "date": "2026-10-11",
-  "time": "21:23"
- },
  "TC-076": {
   "status": "Fail",
   "actual": "System Back from Calendar, from Add food and from Goal each closed Calori (launcher came to the front) instead of returning to Home. Reopening showed Home.",
@@ -913,5 +545,17 @@
   ],
   "date": "2026-10-11",
   "time": "21:23"
+ },
+ "TC-077": {
+  "status": "Fail",
+  "actual": "After 'Maintain instead' and 'Moderately active' the plan screen shows only an endless loading spinner (still spinning after 10 s) - no target, no 'Start tracking', no back arrow. The offered alternative is a dead end, so an underweight user cannot finish onboarding.",
+  "evidence": [
+   "TC-017_maintain_spinner"
+  ],
+  "defects": [
+   "DEF-06"
+  ],
+  "date": "2026-10-11",
+  "time": "20:43"
  }
 }

@@ -297,6 +297,30 @@ class Doc:
         self.d.add_paragraph().paragraph_format.space_after = Pt(4)
         return t
 
+    def kv_table_image(self, pairs, image, image_cm, widths_cm=(3.0, 9.4), size=8.5, caption=None):
+        """Field/value block with one screenshot beside it in a merged third column (compact defect report)."""
+        t = self.kv_table(pairs, widths_cm=widths_cm, size=size, status_key=None)
+        spacer = t._tbl.getnext(); spacer.getparent().remove(spacer)
+        grid = t._tbl.tblGrid
+        gc = OxmlElement("w:gridCol"); gc.set(qn("w:w"), str(int(image_cm * 567))); grid.append(gc)
+        for row in t.rows:
+            tc = OxmlElement("w:tc"); tcpr = OxmlElement("w:tcPr")
+            w = OxmlElement("w:tcW"); w.set(qn("w:w"), str(int(image_cm * 567))); w.set(qn("w:type"), "dxa")
+            tcpr.append(w); tc.append(tcpr); tc.append(OxmlElement("w:p")); row._tr.append(tc)
+        top = t.cell(0, 2).merge(t.cell(len(t.rows) - 1, 2))
+        va = OxmlElement("w:vAlign"); va.set(qn("w:val"), "center"); top._tc.get_or_add_tcPr().append(va)
+        para = top.paragraphs[0]; para.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        para.paragraph_format.space_after = Pt(0)
+        para.add_run().add_picture(str(image), width=Cm(image_cm - 0.3))
+        for row in t.rows:
+            for cell in row.cells:
+                for q in cell.paragraphs:
+                    q.paragraph_format.keep_with_next = True
+        if caption:
+            self.caption("Figure", caption)
+        self.d.add_paragraph().paragraph_format.space_after = Pt(4)
+        return t
+
     def image(self, path, width_cm, caption=None):
         para = self.d.add_paragraph(); para.alignment = WD_ALIGN_PARAGRAPH.CENTER
         para.add_run().add_picture(str(path), width=Cm(width_cm))

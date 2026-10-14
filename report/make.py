@@ -13,6 +13,8 @@ Q = HERE.parent
 DOCX = Q / "Calori_Test_Summary_Report.docx"
 PDFDIR = Q / "work" / "pdf"
 SOFFICE = r"C:\Program Files\LibreOffice\program\soffice.exe"
+if not pathlib.Path(SOFFICE).exists():
+    SOFFICE = shutil.which("soffice") or "soffice"
 
 
 def build(toc=None):
